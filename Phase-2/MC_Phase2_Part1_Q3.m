@@ -1,0 +1,19 @@
+A = [0 1 0 0;0 -2.2626 -0.3963 0.0082;0 0 0 1;0 3.5649 16.0655 -0.3324] ;
+B = [0;0.2263;0;-0.3565] ;
+C = [1 0 0 0] ;
+D = 0 ;
+z = zeros(4,1);
+AA = A';
+BB = C';
+CC = B';
+[b,a] = ss2tf(AA,BB,CC,D) ;
+G = tf(b,a) ;
+Controllability = [BB AA*BB AA^2*BB AA^3*BB ] ;
+Psi = [1 2.595 -15.34 -34.94;0 1 2.595 -15.34;0 0 1 2.595;0 0 0 1] ;
+Alfa = [34 431 2414 5040];
+aa = a(2:5);
+K = (Alfa-aa)*inv(Psi)*inv(Controllability) ;
+L = K';
+%%
+poles = [-10 -9 -8 -7];
+LL = place(AA,BB,poles);
